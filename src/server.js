@@ -5,13 +5,28 @@ export default function () {
 	createServer({
 
 		models: {
-			reminder: Model,
+			list: Model.extend({
+			  reminders: hasMany(),
+			}),
+	  
+			reminder: Model.extend({
+			  list: belongsTo(),
+			}),
 		},
 
 		seeds(server) {
 			server.create("reminder", { text: "Walk the dog" })
 			server.create("reminder", { text: "Take out the trash" })
 			server.create("reminder", { text: "Work out" })
+
+			server.create("list", { name: "Home" });
+			server.create("list", { name: "Work" });
+
+			let homeList = server.create("list", { name: "Home" });
+			server.create("reminder", { list: homeList, text: "Do taxes" });
+		  
+			let workList = server.create("list", { name: "Work" });
+			server.create("reminder", { list: workList, text: "Visit bank" });
 		},
 
 		routes() {
@@ -31,6 +46,17 @@ export default function () {
 				let id = request.params.id
 			  
 				return schema.reminders.find(id).destroy()
+			  })
+
+			  this.get("/api/lists", (schema, request) => {
+				return schema.lists.all()
+			  }) 
+			  
+			  this.get("/api/lists/:id/reminders", (schema, request) => {
+				let listId = request.params.id
+				let list = schema.lists.find(listId)
+			  
+				return list.reminders
 			  })
 		},
 	})
