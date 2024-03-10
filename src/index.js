@@ -8,22 +8,22 @@ import makeServer from "./server";
 import makeFinalServer from "./lib/server-final";
 
 if (
-  process.env.NODE_ENV === "development" &&
-  typeof makeServer === "function"
+	process.env.NODE_ENV === "development" &&
+	typeof makeServer === "function"
 ) {
-  makeServer();
+	makeServer();
 } else if (
-  process.env.NODE_ENV === "production" ||
-  process.env.REACT_APP_DEMO
+	process.env.NODE_ENV === "production" ||
+	process.env.REACT_APP_DEMO
 ) {
-  makeFinalServer(); 
+	makeFinalServer(); 
 }
 
 ReactDOM.render(
-  <BrowserRouter>
-    <QueryParamProvider ReactRouterRoute={Route}>
-      <App />
-    </QueryParamProvider>
-  </BrowserRouter>,
-  document.getElementById("root")
+	<BrowserRouter>
+		<QueryParamProvider ReactRouterRoute={Route}>
+			<App />
+		</QueryParamProvider>
+	</BrowserRouter>,
+	document.getElementById("root")
 );
