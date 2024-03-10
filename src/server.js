@@ -1,5 +1,5 @@
 // src/server.js
-import { createServer, Model } from "miragejs"
+import { createServer, Model, hasMany, belongsTo  } from "miragejs"
 
 export default function () {
 	createServer({
