@@ -2,6 +2,7 @@
 import { visit } from "../lib/test-helpers"
 import { screen, waitForElementToBeRemoved } from "@testing-library/react"
 import makeServer from "../server";
+import userEvent from "@testing-library/user-event";
 
 
 let server
@@ -45,6 +46,17 @@ test("it shows existing reminders", async () => {
 test("it can add a reminder to a list", async () => {
 	let list = server.create("list")
   
-	visit(`/${list.id}`)
+	visit(`/${list.id}?open`)
+
 	await waitForElementToBeRemoved(() => screen.getByText("Loading..."))
+
+	userEvent.click(screen.getByTestId("add-reminder"))
+	await userEvent.type(screen.getByTestId("new-reminder-text"), "Work out")
+	userEvent.click(screen.getByTestId("save-new-reminder"))
+
+	await waitForElementToBeRemoved(() => screen.getByTestId("new-reminder-text"))
+
+	expect(screen.getByText("Work out")).toBeInTheDocument()
+	expect(server.db.reminders.length).toEqual(1)
+	expect(server.db.reminders[0].listId).toEqual(list.id)
 })
