@@ -23,6 +23,12 @@ export default function () {
 
 
 		factories: {
+
+			list: Factory.extend({
+				name(i) {
+					return `List ${i}`;
+				},
+			}),
 			reminder: Factory.extend({
 			  //text: "Reminder text",
 			  text(i) {
@@ -35,6 +41,11 @@ export default function () {
 			server.create("reminder", { text: "Walk the dog" })
 			server.create("reminder", { text: "Take out the trash" })
 			server.create("reminder", { text: "Work out" })
+			
+			server.create("list", {
+				reminders: server.createList("reminder", 5),
+			});
+			
 			//server.create("reminder");
 			//server.create("reminder");
 			//server.create("reminder");
