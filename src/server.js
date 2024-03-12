@@ -1,9 +1,9 @@
 // src/server.js
 import { createServer, Model, hasMany, belongsTo,  RestSerializer, Factory } from "miragejs"
 
-export default function () {
+export default function (environment = "development") {
 	createServer({
-
+		environment,
 		serializers: {
 			reminder: RestSerializer.extend({
 			  include: ["list"],
