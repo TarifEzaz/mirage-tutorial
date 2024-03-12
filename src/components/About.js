@@ -15,7 +15,6 @@ export function About() {
 				>
 					Mirage JS Tutorial
 				</a>
-				.
 			</p>
 		</div>
 	);
