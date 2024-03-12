@@ -23,6 +23,10 @@ test("it shows existing reminders", async () => {
 	visit("/")
 	await waitForElementToBeRemoved(() => screen.getByText("Loading..."))
   
-	expect(screen.getByText("All done!")).toBeInTheDocument()
+	expect(screen.getByText("Walk the dog")).toBeInTheDocument()
+	expect(screen.getByText("Take out the trash")).toBeInTheDocument()
+	expect(screen.getByText("Work out")).toBeInTheDocument()
+
+	//expect(screen.getByText("All done!")).toBeInTheDocument()
 	server.shutdown()
   })
