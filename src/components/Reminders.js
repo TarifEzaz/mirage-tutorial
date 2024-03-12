@@ -6,98 +6,98 @@ import { BooleanParam } from "../lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function () {
-  let history = useHistory();
-  let location = useLocation();
-  let { listId } = useParams();
+	let history = useHistory();
+	let location = useLocation();
+	let { listId } = useParams();
 
-  let [reminders, setReminders] = useState(null);
-  let [lists, setLists] = useState();
-  let [error, setError] = useState();
-  let [isAddingReminder, setIsAddingReminder] = useState();
-  let [isSavingReminder, setIsSavingReminder] = useState();
-  let [isAddingList, setIsAddingList] = useState();
-  let [isSavingList, setIsSavingList] = useState();
-  let [newReminderText, setNewReminderText] = useState("");
-  let [newListName, setNewListName] = useState("");
-  let [sidebarIsOpen, setSidebarIsOpen] = useQueryParam("open", BooleanParam);
+	let [reminders, setReminders] = useState(null);
+	let [lists, setLists] = useState();
+	let [error, setError] = useState();
+	let [isAddingReminder, setIsAddingReminder] = useState();
+	let [isSavingReminder, setIsSavingReminder] = useState();
+	let [isAddingList, setIsAddingList] = useState();
+	let [isSavingList, setIsSavingList] = useState();
+	let [newReminderText, setNewReminderText] = useState("");
+	let [newListName, setNewListName] = useState("");
+	let [sidebarIsOpen, setSidebarIsOpen] = useQueryParam("open", BooleanParam);
 
-  let activeList = listId && lists?.find((list) => list.id === listId);
+	let activeList = listId && lists?.find((list) => list.id === listId);
 
-  useEffect(() => {
-    let isCurrent = true;
-    setReminders(null);
-    let url = listId ? `/api/lists/${listId}/reminders` : `/api/reminders`;
+	useEffect(() => {
+	let isCurrent = true;
+	setReminders(null);
+	let url = listId ? `/api/lists/${listId}/reminders` : `/api/reminders`;
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        if (isCurrent) {
-          setReminders(json.reminders);
-        }
-      })
-      .catch((e) => {
-        if (isCurrent) {
-          setError("We couldn't load your reminders. Try again soon.");
-          console.error(e);
-        }
-      });
+	fetch(url)
+		.then((res) => res.json())
+		.then((json) => {
+		if (isCurrent) {
+			setReminders(json.reminders);
+		}
+		})
+		.catch((e) => {
+		if (isCurrent) {
+			setError("We couldn't load your reminders. Try again soon.");
+			console.error(e);
+		}
+		});
 
-    return () => {
-      isCurrent = false;
-    };
-  }, [listId]);
+	return () => {
+		isCurrent = false;
+	};
+	}, [listId]);
 
-  useEffect(() => {
-    let isCurrent = true;
+	useEffect(() => {
+	let isCurrent = true;
 
-    if (sidebarIsOpen) {
-      fetch(`/api/lists`)
-        .then((res) => res.json())
-        .then((json) => {
-          if (isCurrent) {
-            setLists(json.lists);
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }
+	if (sidebarIsOpen) {
+		fetch(`/api/lists`)
+		.then((res) => res.json())
+		.then((json) => {
+			if (isCurrent) {
+			setLists(json.lists);
+			}
+		})
+		.catch((e) => {
+			console.error(e);
+		});
+	}
 
-    return () => {
-      isCurrent = false;
-    };
-  }, [sidebarIsOpen]);
+	return () => {
+		isCurrent = false;
+	};
+	}, [sidebarIsOpen]);
 
-  function createReminder(e) {
-    e.preventDefault();
+	function createReminder(e) {
+	e.preventDefault();
 
-    if (!newReminderText) {
-      return;
-    }
+	if (!newReminderText) {
+		return;
+	}
 
-    setIsSavingReminder(true);
+	setIsSavingReminder(true);
 
-    fetch("/api/reminders", {
-      method: "POST",
-      body: JSON.stringify({
-        text: newReminderText,
-        ...(listId && { listId }),
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        setNewReminderText("");
-        setReminders((reminders) => [...reminders, json.reminder]);
-        setIsAddingReminder(false);
-      })
-      .catch((e) => {
-        setError("Your Reminder wasn't saved. Try again.");
-        console.error(e);
-      })
-      .finally(() => {
-        setIsSavingReminder(false);
-      });
-  }
+	fetch("/api/reminders", {
+		method: "POST",
+		body: JSON.stringify({
+		text: newReminderText,
+		...(listId && { listId }),
+		}),
+	})
+		.then((res) => res.json())
+		.then((json) => {
+		setNewReminderText("");
+		setReminders((reminders) => [...reminders, json.reminder]);
+		setIsAddingReminder(false);
+		})
+		.catch((e) => {
+		setError("Your Reminder wasn't saved. Try again.");
+		console.error(e);
+		})
+		.finally(() => {
+		setIsSavingReminder(false);
+		});
+	}
 
   function createList(e) {
     e.preventDefault();
