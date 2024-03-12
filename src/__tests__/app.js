@@ -41,3 +41,10 @@ test("it shows existing reminders", async () => {
 	//expect(screen.getByText("All done!")).toBeInTheDocument()
 //	server.shutdown()
   })
+  
+test("it can add a reminder to a list", async () => {
+	let list = server.create("list")
+  
+	visit(`/${list.id}`)
+	await waitForElementToBeRemoved(() => screen.getByText("Loading..."))
+})
