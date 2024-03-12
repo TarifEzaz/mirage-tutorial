@@ -24,7 +24,10 @@ export default function () {
 
 		factories: {
 			reminder: Factory.extend({
-			  text: "Reminder text",
+			  //text: "Reminder text",
+			  text(i) {
+				return `Reminder ${i}`
+			  }
 			}),
 		},
 
