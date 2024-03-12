@@ -1,5 +1,5 @@
 // src/server.js
-import { createServer, Model, hasMany, belongsTo,  RestSerializer,  } from "miragejs"
+import { createServer, Model, hasMany, belongsTo,  RestSerializer, Factory } from "miragejs"
 
 export default function () {
 	createServer({
@@ -18,6 +18,13 @@ export default function () {
 		
 			reminder: Model.extend({
 				list: belongsTo(),
+			}),
+		},
+
+
+		factories: {
+			reminder: Factory.extend({
+			  text: "Reminder text",
 			}),
 		},
 
