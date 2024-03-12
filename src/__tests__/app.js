@@ -15,7 +15,11 @@ test("it shows a message when there are no reminders", async () => {
 
 test("it shows existing reminders", async () => {
 	let server = makeServer("test")
-	makeServer("test")
+	server.create("reminder", { text: "Walk the dog" })
+	server.create("reminder", { text: "Take out the trash" })
+	server.create("reminder", { text: "Work out" })
+
+//	makeServer("test")
 	visit("/")
 	await waitForElementToBeRemoved(() => screen.getByText("Loading..."))
   
