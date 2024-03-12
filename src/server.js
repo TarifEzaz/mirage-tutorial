@@ -35,10 +35,11 @@ export default function () {
 			server.create("reminder", { text: "Walk the dog" })
 			server.create("reminder", { text: "Take out the trash" })
 			server.create("reminder", { text: "Work out" })
-			server.create("reminder");
-			server.create("reminder");
-			server.create("reminder");
-
+			//server.create("reminder");
+			//server.create("reminder");
+			//server.create("reminder");
+			server.createList("reminder", 10);
+			
 			server.create("list", { name: "Home" });
 			server.create("list", { name: "Work" });
 
