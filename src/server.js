@@ -64,27 +64,28 @@ export default function (environment = "development") {
 			},
 
 		routes() {
-			this.get("/api/reminders", (schema) => {
+			this.namespace = "/api";
+			this.get("/reminders", (schema) => {
 				return schema.reminders.all()
 			})
 
-			this.post("/api/reminders", (schema, request) => {
+			this.post("/reminders", (schema, request) => {
 				let attrs = JSON.parse(request.requestBody)
 
 				return schema.reminders.create(attrs)
 			})
 
-			this.delete("/api/reminders/:id", (schema, request) => {
+			this.delete("/reminders/:id", (schema, request) => {
 				let id = request.params.id
 				
 				return schema.reminders.find(id).destroy()
 			})
 
-			this.get("/api/lists", (schema, request) => {
+			this.get("/lists", (schema, request) => {
 				return schema.lists.all()
 			}) 
 				
-			this.get("/api/lists/:id/reminders", (schema, request) => {
+			this.get("/lists/:id/reminders", (schema, request) => {
 				let listId = request.params.id
 				let list = schema.lists.find(listId)
 				
